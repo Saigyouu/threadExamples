@@ -44,13 +44,24 @@ public class TableSemaphore {
         return current;
     }
 
+    /* Unterschied modify und set?
+     * Vielleicht könnt ihr mir ja helfen.. :D
+     */
     public Value modifyElem(Value val, int line, int col) throws InterruptedException{
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
         if (this.table[line][col] == null)
             return null;
+
+        semArr[line].acquire();
+        this.table[line][col].startRead();
+
         Value current = this.table[line][col].getVal();
         this.table[line][col].setVal(val);
+
+        this.table[line][col].stopRead();
+        semArr[line].release();
+
         return current;
     }
 }
