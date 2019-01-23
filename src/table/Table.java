@@ -12,6 +12,7 @@ public abstract class Table {
 
     public int lines() {return this.lines;}
     public int columns() {return this.columns;}
+    public int getElemReadCount(int line, int column) { return table[line][column].getReadCount(); }
 
     public abstract Element readElem(int line, int col) throws InterruptedException;
     public abstract Element setElem(Element e, int line, int col) throws InterruptedException;

@@ -8,6 +8,8 @@ public abstract class Element {
         this.readCount++;
     }
 
+    public int getReadCount() { return this.readCount; }
+
     public void setVal(Value val) {
         this.val = val;
     }
