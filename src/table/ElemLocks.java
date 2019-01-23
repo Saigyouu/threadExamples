@@ -1,19 +1,15 @@
+package table;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ElemLocks {
-    private int readCount;
-    private Value val;
+public class ElemLocks extends Element {
     private ReentrantLock mutex = new ReentrantLock();
     private Condition con;
 
     public ElemLocks() {
         this.readCount = 0;
         con = mutex.newCondition();
-    }
-
-    public void incReadCount() {
-        this.readCount++;
     }
 
     public void startRead() throws InterruptedException {
@@ -28,13 +24,5 @@ public class ElemLocks {
     public void stopRead() {
         this.con.signal();
         this.mutex.unlock();
-    }
-
-    public void setVal(Value val) {
-        this.val = val;
-    }
-
-    public Value getVal() {
-        return val;
     }
 }

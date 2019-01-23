@@ -1,15 +1,12 @@
+package table;
+
 import java.util.concurrent.Semaphore;
 
-public class TableSemaphore {
-    private ElemSemaphore[][] table;
-    private int lines;
-    private int columns;
+public class TableSemaphore extends Table {
     private Semaphore[] semArr;
 
     public TableSemaphore(int line, int column){
-        this.lines = (line < 1) ? 1 : line;
-        this.columns = (column < 1) ? 1 : column;
-        this.table = new ElemSemaphore[this.lines][columns];
+        super(line, column);
         semArr = new Semaphore[this.lines];
         for(int i = 0; i < semArr.length; i++) {
             semArr[i] = new Semaphore(1);
@@ -18,8 +15,7 @@ public class TableSemaphore {
             }
         }
     }
-    public int lines() {return this.lines;}
-    public int columns() {return this.columns;}
+
     public ElemSemaphore readElem(int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;

@@ -1,17 +1,14 @@
+package table;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class TableLocks {
-    private ElemLocks[][] table;
-    private int lines;
-    private int columns;
+public class TableLocks extends Table {
     private ReentrantLock[] mutexArr;
     private Condition[] conArr;
 
     public TableLocks(int line, int column){
-        this.lines = (line < 1) ? 1 : line;
-        this.columns = (column < 1) ? 1 : column;
-        this.table = new ElemLocks[this.lines][columns];
+        super(line, column);
         // Mutex und Conditions-Array erzeugen
         mutexArr = new ReentrantLock[this.lines];
         conArr = new Condition[this.lines];
@@ -24,8 +21,7 @@ public class TableLocks {
             }
         }
     }
-    public int lines() {return this.lines;}
-    public int columns() {return this.columns;}
+
     public ElemLocks readElem(int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
@@ -34,6 +30,7 @@ public class TableLocks {
         table[line][col].stopRead();
         return this.table[line][col];
     }
+
     public ElemLocks setElem(ElemLocks e, int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
