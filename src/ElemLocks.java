@@ -3,6 +3,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ElemLocks {
     private int readCount;
+    private Value val;
     private ReentrantLock mutex = new ReentrantLock();
     private Condition con;
 
@@ -27,5 +28,13 @@ public class ElemLocks {
     public void stopRead() {
         this.con.signal();
         this.mutex.unlock();
+    }
+
+    public void setVal(Value val) {
+        this.val = val;
+    }
+
+    public Value getVal() {
+        return val;
     }
 }

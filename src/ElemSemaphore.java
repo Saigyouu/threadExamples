@@ -2,6 +2,7 @@ import java.util.concurrent.Semaphore;
 
 public class ElemSemaphore {
     private int readCount;
+    private Value val;
     private Semaphore sem;
 
     public ElemSemaphore() {
@@ -19,5 +20,13 @@ public class ElemSemaphore {
 
     public void stopRead() {
         sem.release();
+    }
+
+    public void setVal(Value val) {
+        this.val = val;
+    }
+
+    public Value getVal() {
+        return val;
     }
 }

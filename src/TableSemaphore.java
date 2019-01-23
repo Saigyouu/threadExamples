@@ -43,4 +43,14 @@ public class TableSemaphore {
         semArr[line].release();
         return current;
     }
+
+    public Value modifyElem(Value val, int line, int col) throws InterruptedException{
+        if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
+            return null;
+        if (this.table[line][col] == null)
+            return null;
+        Value current = this.table[line][col].getVal();
+        this.table[line][col].setVal(val);
+        return current;
+    }
 }

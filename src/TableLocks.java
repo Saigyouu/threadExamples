@@ -56,4 +56,27 @@ public class TableLocks {
         mutexArr[line].unlock();
         return current;
     }
+
+    /* Unterschied modify und set?
+     * Vielleicht könnt ihr mir ja helfen.. :D
+     */
+    public Value modifyElem(Value val, int line, int col) throws InterruptedException{
+        if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
+            return null;
+        if (this.table[line][col] == null)
+            return null;
+
+        while(!this.mutexArr[line].tryLock())
+            conArr[line].await();
+
+        table[line][col].startRead();
+
+        Value current = this.table[line][col].getVal();
+        this.table[line][col].setVal(val);
+
+        table[line][col].stopRead();
+        conArr[line].signal();
+        mutexArr[line].unlock();
+        return current;
+    }
 }
