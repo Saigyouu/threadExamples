@@ -7,6 +7,7 @@ public class TableSemaphore extends Table {
 
     public TableSemaphore(int line, int column){
         super(line, column);
+        this.table = new ElemSemaphore[this.lines][columns];
         semArr = new Semaphore[this.lines];
         for(int i = 0; i < semArr.length; i++) {
             semArr[i] = new Semaphore(1);
@@ -16,7 +17,7 @@ public class TableSemaphore extends Table {
         }
     }
 
-    public ElemSemaphore readElem(int line, int col) throws InterruptedException {
+    public Element readElem(int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
         table[line][col].startRead();
@@ -24,12 +25,12 @@ public class TableSemaphore extends Table {
         table[line][col].stopRead();
         return this.table[line][col];
     }
-    public ElemSemaphore setElem(ElemSemaphore e, int line, int col) throws InterruptedException {
+    public Element setElem(Element e, int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
         semArr[line].acquire();
         table[line][col].startRead();
-        ElemSemaphore current = this.table[line][col];
+        Element current = this.table[line][col];
 
         e.startRead();
         this.table[line][col] = e;

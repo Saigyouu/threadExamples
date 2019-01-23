@@ -9,6 +9,7 @@ public class TableLocks extends Table {
 
     public TableLocks(int line, int column){
         super(line, column);
+        this.table = new ElemLocks[this.lines][columns];
         // Mutex und Conditions-Array erzeugen
         mutexArr = new ReentrantLock[this.lines];
         conArr = new Condition[this.lines];
@@ -22,7 +23,7 @@ public class TableLocks extends Table {
         }
     }
 
-    public ElemLocks readElem(int line, int col) throws InterruptedException {
+    public Element readElem(int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
         table[line][col].startRead();
@@ -31,7 +32,7 @@ public class TableLocks extends Table {
         return this.table[line][col];
     }
 
-    public ElemLocks setElem(ElemLocks e, int line, int col) throws InterruptedException {
+    public Element setElem(Element e, int line, int col) throws InterruptedException {
         if (line < 0 || line >= this.lines || col < 0 || col >= this.columns)
             return null;
         while(!mutexArr[line].tryLock())
@@ -39,7 +40,7 @@ public class TableLocks extends Table {
 
         table[line][col].startRead();
 
-        ElemLocks current = this.table[line][col];
+        Element current = this.table[line][col];
 
         // Falls jemand auf die glorreiche Idee kommt, das gleiche reinzuschreiben, obwohl es schon drin steht
         if(current != e) {

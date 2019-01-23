@@ -8,7 +8,6 @@ public abstract class Table {
     public Table(int line, int column) {
         this.lines = (line < 1) ? 1 : line;
         this.columns = (column < 1) ? 1 : column;
-        this.table = new ElemLocks[this.lines][columns];
     }
 
     public int lines() {return this.lines;}
