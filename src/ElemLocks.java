@@ -1,16 +1,12 @@
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Elem {
-    private int a;
-    private int b;
+public class ElemLocks {
     private int readCount;
     private ReentrantLock mutex = new ReentrantLock();
     private Condition con;
 
-    public Elem(int a, int b) {
-        this.a = a;
-        this.b = b;
+    public ElemLocks() {
         this.readCount = 0;
         con = mutex.newCondition();
     }
